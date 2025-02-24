@@ -12,8 +12,8 @@ display "`user'"
 if "`user'" == "dylan" {
     cd "C:\Users\dylan\Desktop\Dartmouth\ECON 20\Group Project"
 }
-else if "`user'" == "user2" {
-    cd "D:/Research/DataFolder"
+else if "`user'" == "camerondailey" {
+    cd "/Users/camerondailey/Desktop/ECON020/final project"
 }
 else if "`user'" == "user3" {
     cd "E:/Work/Project"
@@ -32,3 +32,4 @@ else {
 
 
 capture log close
+
