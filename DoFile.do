@@ -3,6 +3,7 @@ set more off
 cap log close
 
 // Get the current user's username
+local os = c(os)
 local user = c(username)
 
 // Set the working directory based on the username
