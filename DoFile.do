@@ -6,9 +6,11 @@ cap log close
 local os = c(os)
 local user = c(username)
 
+display `user'
+
 // Set the working directory based on the username
-if "`user'" == "ec20_ps2_DYLANBUCHANAN.log" {
-    cd "C:/Users/user1/Documents/ProjectFolder"
+if "`user'" == "Dylan" {
+    cd "C:\Users\dylan\Desktop\Dartmouth\ECON 20\Group Project"
 }
 else if "`user'" == "user2" {
     cd "D:/Research/DataFolder"
