@@ -24,7 +24,7 @@ else {
 
 // Open Data Sets Below
 
-use usa_00001, clear
+use usa_00001.dta, clear
 browse
 
 // Table Champion's champion code
