@@ -3,10 +3,7 @@ set more off
 cap log close
 
 // Get the current user's username
-local os = c(os)
 local user = c(username)
-
-display "`user'"
 
 // Set the working directory based on the username
 if "`user'" == "dylan" {
@@ -18,7 +15,7 @@ else if "`user'" == "camerondailey" {
 else if "`user'" == "arshdeepsingh" {
     cd "/Users/arshdeepsingh/Documents/ECON 20 Group Project"
 }
-else if "`user'" == "user4" {
+else if "`user'" == "sebastianmanon" {
     cd "C:/Projects/SharedFolder"
 }
 else {
