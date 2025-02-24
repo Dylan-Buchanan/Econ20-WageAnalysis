@@ -6,10 +6,10 @@ cap log close
 local os = c(os)
 local user = c(username)
 
-display `user'
+display "`user'"
 
 // Set the working directory based on the username
-if "`user'" == "Dylan" {
+if "`user'" == "dylan" {
     cd "C:\Users\dylan\Desktop\Dartmouth\ECON 20\Group Project"
 }
 else if "`user'" == "user2" {
