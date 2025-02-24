@@ -16,7 +16,7 @@ else if "`user'" == "arshdeepsingh" {
     cd "/Users/arshdeepsingh/Documents/ECON 20 Group Project"
 }
 else if "`user'" == "sebastianmanon" {
-    cd "C:/Projects/SharedFolder"
+    cd "/Users/sebastianmanon/Documents/Econ 20"
 }
 else {
     display as error "User not recognized. Please update the do-file with your path."
