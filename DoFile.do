@@ -71,5 +71,10 @@ tab educd, gen(educ_dummy)
 tab empstat, gen(emp_dummy)
 
 
+gen lnwage = ln(incwage)
+
+capture log close
+
+
 
 capture log close
