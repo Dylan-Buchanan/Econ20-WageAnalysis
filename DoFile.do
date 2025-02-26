@@ -25,7 +25,7 @@ else {
     display as error "User not recognized. Please update the do-file with your path."
 }
 
-// Open Data Sets Below
+// Open Data Sets Below And Clean Up 
 
 use usa_00001, clear
 browse
@@ -56,11 +56,19 @@ drop cbserial
 drop gq 
 drop pernum
 drop citizen
+drop race
+drop educ
+drop empstatd
+drop hrswork1
+
+tab statefip, gen(state_dummy)
 
 
+gen female = (sex==2)
+tab raced, gen(race_dummy)
+tab educd, gen(educ_dummy)
+tab empstat, gen(emp_dummy)
 
-
-// Table Champion's champion code
 
 
 capture log close
