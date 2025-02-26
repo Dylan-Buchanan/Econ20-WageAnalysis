@@ -15,11 +15,11 @@ if "`user'" == "dylan" {
 else if "`user'" == "camerondailey" {
     cd "/Users/camerondailey/Desktop/ECON020/final project"
 }
-else if "`user'" == "user3" {
-    cd "E:/Work/Project"
+else if "`user'" == "arshdeepsingh" {
+    cd "/Users/arshdeepsingh/Documents/ECON 20 Group Project"
 }
-else if "`user'" == "user4" {
-    cd "C:/Projects/SharedFolder"
+else if "`user'" == "sebastianmanon" {
+    cd "/Users/sebastianmanon/Documents/Econ 20"
 }
 else {
     display as error "User not recognized. Please update the do-file with your path."
