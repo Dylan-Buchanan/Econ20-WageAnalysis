@@ -31,6 +31,7 @@ use usa_00001, clear
 browse
 
 
+
 drop if year == 1850
 drop if year == 1860
 drop if year == 1870
@@ -54,6 +55,7 @@ drop serial
 drop cbserial
 drop gq 
 drop pernum
+drop citizen
 
 
 
