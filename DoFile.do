@@ -69,8 +69,7 @@ gen female = (sex==2)
 tab raced, gen(race_dummy)
 tab educd, gen(educ_dummy)
 tab empstat, gen(emp_dummy)
-
-
 gen lnwage = ln(incwage)
+gen post_wage_increase = (year >= 2007)
 
 capture log close
