@@ -60,6 +60,7 @@ drop race
 drop educ
 drop empstatd
 drop hrswork1
+drop if empstat == 0
 
 tab statefip, gen(state_dummy)
 
