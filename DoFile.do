@@ -77,4 +77,34 @@ sum emp_dummy* if year >= 2007 & statefip == 8
 sum emp_dummy* if year < 2007 & statefip == 49
 sum emp_dummy* if year >= 2007 & statefip == 49
 
+sum age if year < 2007 & statefip == 8
+sum age if year >= 2007 & statefip == 8
+sum age if year < 2007 & statefip == 49
+sum age if year >= 2007 & statefip == 49
+
+sum perwt if year < 2007 & statefip == 8
+sum perwt if year >= 2007 & statefip == 8
+sum perwt if year < 2007 & statefip == 49
+sum perwt if year >= 2007 & statefip == 49
+
+sum sex if year < 2007 & statefip == 8
+sum sex if year >= 2007 & statefip == 8
+sum sex if year < 2007 & statefip == 49
+sum sex if year >= 2007 & statefip == 49
+
+sum educ_dummy* if year < 2007 & statefip == 8
+sum educ_dummy* if year >= 2007 & statefip == 8
+sum educ_dummy* if year < 2007 & statefip == 49
+sum educ_dummy* if year >= 2007 & statefip == 49
+
+sum incwage if year < 2007 & statefip == 8
+sum incwage if year >= 2007 & statefip == 8
+sum incwage if year < 2007 & statefip == 49
+sum incwage if year >= 2007 & statefip == 49
+
+sum race_dummy* if year < 2007 & statefip == 8
+sum race_dummy* if year >= 2007 & statefip == 8
+sum race_dummy* if year < 2007 & statefip == 49
+sum race_dummy* if year >= 2007 & statefip == 49
+
 capture log close
