@@ -47,6 +47,7 @@ drop if year == 1970
 drop if year == 1980
 drop if year == 1990
 drop if year == 2000
+drop if year == 2023
 
 
 
@@ -122,26 +123,28 @@ foreach state in 8 49 {
 
 
 
-
+// for employment 
 gen employed = emp_dummy1
-
-
 preserve
 collapse (mean) employment_rate=employed [pweight=perwt], by(statefip year)
-
-
 keep if statefip == 8 | statefip == 49
-
-
 gen state_name = "colorado" if statefip == 8
 replace state_name = "utah" if statefip == 49
-
-
-twoway (connected employment_rate year if statefip == 8) (connected employment_rate year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2005(1)2019) ylabel(0.6(0.05)0.85) ytitle("Employment Rate") xtitle("Year") title("Employment Trends in Colorado (Treatment) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treatment)" 2 "Utah (Control)"))
-
+twoway (connected employment_rate year if statefip == 8) (connected employment_rate year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2005(1)2010) ylabel(0.65(0.05)0.8) ytitle("Employment Rate") xtitle("Year") title("Employment Trends in Colorado (Treatment) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treatment)" 2 "Utah (Control)"))
 graph export "employment_trends.png", replace
-
 restore
+
+// for lnwage
+preserve
+collapse (mean) mean_lnwage=lnwage [pweight=perwt], by(statefip year)
+keep if statefip == 8 | statefip == 49
+gen state_name = "Colorado" if statefip == 8
+replace state_name = "Utah" if statefip == 49
+twoway (connected mean_lnwage year if statefip == 8) (connected mean_lnwage year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2003(1)2010) ytitle("Average Log Wage") xtitle("Year") title("Log Wage Trends in Colorado (Treatment) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treatment)" 2 "Utah (Control)"))
+graph export "log_wage_trends.png", replace
+restore
+
+
 
 
 capture log close
