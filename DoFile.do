@@ -62,6 +62,8 @@ drop empstatd
 drop hrswork1
 drop if empstat == 0
 
+drop if perwt >= 400
+
 tab statefip, gen(state_dummy)
 
 
