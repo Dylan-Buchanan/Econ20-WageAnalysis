@@ -120,4 +120,28 @@ foreach state in 8 49 {
     }
 }
 
+
+
+
+gen employed = emp_dummy1
+
+
+preserve
+collapse (mean) employment_rate=employed [pweight=perwt], by(statefip year)
+
+
+keep if statefip == 8 | statefip == 49
+
+
+gen state_name = "colorado" if statefip == 8
+replace state_name = "utah" if statefip == 49
+
+
+twoway (connected employment_rate year if statefip == 8) (connected employment_rate year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2005(1)2019) ylabel(0.6(0.05)0.85) ytitle("Employment Rate") xtitle("Year") title("Employment Trends in Colorado (Treatment) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treatment)" 2 "Utah (Control)"))
+
+graph export "employment_trends.png", replace
+
+restore
+
+
 capture log close
