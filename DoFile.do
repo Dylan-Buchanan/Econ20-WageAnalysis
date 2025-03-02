@@ -72,4 +72,9 @@ tab empstat, gen(emp_dummy)
 gen lnwage = ln(incwage)
 gen post_wage_increase = (year >= 2007)
 
+sum emp_dummy* if year < 2007 & statefip == 8
+sum emp_dummy* if year >= 2007 & statefip == 8
+sum emp_dummy* if year < 2007 & statefip == 49
+sum emp_dummy* if year >= 2007 & statefip == 49
+
 capture log close
