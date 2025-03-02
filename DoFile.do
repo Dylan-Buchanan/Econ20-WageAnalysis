@@ -31,7 +31,6 @@ use usa_00001, clear
 browse
 
 
-
 drop if year == 1850
 drop if year == 1860
 drop if year == 1870
@@ -50,7 +49,6 @@ drop if year == 2000
 drop if year == 2023
 
 
-
 drop sample
 drop serial 
 drop cbserial
@@ -63,18 +61,17 @@ drop empstatd
 drop hrswork1
 drop if empstat == 0
 
-drop if perwt >= 400
-drop if perwt <= 50
-
 tab statefip, gen(state_dummy)
 
 
+gen treated = (statefip == 8)
 gen female = (sex==2)
 tab raced, gen(race_dummy)
 tab educd, gen(educ_dummy)
 tab empstat, gen(emp_dummy)
 gen lnwage = ln(incwage)
-gen post_wage_increase = (year >= 2007)
+gen post = (year >= 2007)
+gen treated_post = treated * post
 
 putexcel set summary.xlsx, replace
 putexcel A1 = "State"
@@ -144,7 +141,12 @@ twoway (connected mean_lnwage year if statefip == 8) (connected mean_lnwage year
 graph export "log_wage_trends.png", replace
 restore
 
+// Basic DiD regression
+reg employed treated post treated_post [pweight=perwt], robust
+outreg2 using employment_results.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Employment)
 
-
+// DiD with state and year fixed effects without weight
+reg employed treated_post age i.sex i.educd i.raced i.statefip i.year [pweight=perwt], robust
+outreg2 using employment_results.doc, append ctitle(With FE) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
 capture log close
