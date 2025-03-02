@@ -84,29 +84,37 @@ putexcel E1 = "SD"
 putexcel F1 = "Min"
 putexcel G1 = "Max"
 local row = 2
-
 foreach state in 8 49 {  
-    foreach condition in 2007 {
+    foreach condition in 2007 2005 {
         foreach variable of varlist emp_dummy* age perwt sex educ_dummy* incwage race_dummy* {
-
             if `condition' == 2007 {
-                sum `variable' if year >= 2007 & statefip == `state'
+                quietly summarize `variable' if year >= 2007 & statefip == `state'
+                local mean = r(mean)
+                local sd = r(sd)
+                local min = r(min)
+                local max = r(max)
+                local n = r(N)
                 local cond_text "year >= 2007"
             }
             else {
-                sum `variable' if year < 2007 & statefip == `state'
+                quietly summarize `variable' if year < 2007 & statefip == `state'
+                local mean = r(mean)
+                local sd = r(sd)
+                local min = r(min)
+                local max = r(max)
+                local n = r(N)
                 local cond_text "year < 2007"
             }
-
-            if r(N) > 0 {
-                putexcel A`row' = `state' ///
-                         B`row' = "`cond_text'" ///
-                         C`row' = "`variable'" ///
-                         D`row' = r(mean) ///
-                         E`row' = r(sd) ///
-                         F`row' = r(min) ///
-                         G`row' = r(max) ///
-                local ++row
+            
+            if `n' > 0 {
+                putexcel A`row' = `state'
+                putexcel B`row' = "`cond_text'"
+                putexcel C`row' = "`variable'"
+                putexcel D`row' = `mean'
+                putexcel E`row' = `sd'
+                putexcel F`row' = `min'
+                putexcel G`row' = `max'
+                local row = `row' + 1
             }
         }
     }
