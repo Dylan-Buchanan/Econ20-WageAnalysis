@@ -149,4 +149,12 @@ outreg2 using employment_results.doc, replace ctitle(Basic DiD) keep(treated pos
 reg employed treated_post age i.sex i.educd i.raced i.statefip i.year [pweight=perwt], robust
 outreg2 using employment_results.doc, append ctitle(With FE) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
+gen young = (age <= 25)
+gen young_treated = young * treated
+gen young_post = young * post
+gen young_post_treated = young * post * treated
+
+reg employed treated_post age i.sex i.educd i.raced i.statefip i.year young_treated young_post young_post_treated [pweight=perwt], robust
+outreg2 using employment_results.doc, append ctitle(With FE) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
+
 capture log close
