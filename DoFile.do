@@ -75,10 +75,39 @@ tab empstat, gen(emp_dummy)
 gen lnwage = ln(incwage)
 gen post_wage_increase = (year >= 2007)
 
+putexcel set summary.xlsx, replace
+putexcel A1 = "State"
+putexcel B1 = "Year Condition"
+putexcel C1 = "Variable"
+putexcel D1 = "Mean"
+putexcel E1 = "SD"
+putexcel F1 = "Min"
+putexcel G1 = "Max"
+local row = 2
+
 foreach state in 8 49 {  
-    foreach condition in "year < 2007" "year >= 2007" {  
-        foreach variable in "emp_dummy*" "age" "perwt" "sex" "educ_dummy*" "incwage" "race_dummy*" {
-            sum `variable' if `condition' & statefip == `state'
+    foreach condition in 2007 {
+        foreach variable of varlist emp_dummy* age perwt sex educ_dummy* incwage race_dummy* {
+
+            if `condition' == 2007 {
+                sum `variable' if year >= 2007 & statefip == `state'
+                local cond_text "year >= 2007"
+            }
+            else {
+                sum `variable' if year < 2007 & statefip == `state'
+                local cond_text "year < 2007"
+            }
+
+            if r(N) > 0 {
+                putexcel A`row' = `state' ///
+                         B`row' = "`cond_text'" ///
+                         C`row' = "`variable'" ///
+                         D`row' = r(mean) ///
+                         E`row' = r(sd) ///
+                         F`row' = r(min) ///
+                         G`row' = r(max) ///
+                local ++row
+            }
         }
     }
 }
