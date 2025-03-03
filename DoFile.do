@@ -71,6 +71,7 @@ gen lnwage = ln(incwage)
 gen post = (year >= 2007)
 gen treated_post = treated * post
 
+// note, looked up syntax for exporting to excel
 putexcel set summary.xlsx, replace
 putexcel A1 = "State"
 putexcel B1 = "Year Condition"
