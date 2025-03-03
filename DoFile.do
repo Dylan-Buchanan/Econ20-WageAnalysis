@@ -160,6 +160,7 @@ outreg2 using employment_results.doc, append ctitle(With FE) keep(treated_post) 
 
 areg employed treated_post age i.sex i.educd i.raced young_treated young_post young_post_treated, absorb(year) robust
 areg employed treated_post age i.sex i.educd i.raced young_treated young_post young_post_treated [pweight=perwt], absorb(year) robust
+outreg2 using employment_results.doc, append ctitle(Absorb Year) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 test treated_post young_treated young_post young_post_treated
 
 capture log close
