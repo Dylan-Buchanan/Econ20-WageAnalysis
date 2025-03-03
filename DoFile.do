@@ -28,8 +28,6 @@ else {
 // Open Data Sets Below And Clean Up 
 
 use usa_00001, clear
-browse
-
 
 drop if year == 1850
 drop if year == 1860
