@@ -141,9 +141,9 @@ restore
 
 // Basic DiD regression
 reg employed treated post treated_post, robust
-outreg2 using employment_results.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Employment (No Perwt))
+outreg2 using employment_results_np.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Employment (No Perwt))
 reg employed treated post treated_post [pweight=perwt], robust
-outreg2 using employment_results_np.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Employment)
+outreg2 using employment_results.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Employment)
 
 // DiD with state and year fixed effects without weight
 reg employed treated_post age i.sex i.educd i.raced i.statefip i.year, robust
