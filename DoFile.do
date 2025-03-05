@@ -157,14 +157,14 @@ gen young_treated = young * treated
 gen young_post = young * post
 gen young_post_treated = young * post * treated
 
-reg employed treated_post age i.sex i.educd i.raced i.statefip i.year young_treated young_post young_post_treated, robust
+reg employed treated_post age i.sex i.educd i.raced i.statefip i.year lnwage young_treated young_post young_post_treated, robust
 outreg2 using employment_results_np.doc, append ctitle(With FE) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
-reg employed treated_post age i.sex i.educd i.raced i.statefip i.year young_treated young_post young_post_treated [pweight=perwt], robust
+reg employed treated_post age i.sex i.educd i.raced i.statefip i.year lnwage young_treated young_post young_post_treated [pweight=perwt], robust
 outreg2 using employment_results.doc, append ctitle(With FE) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
-areg employed treated_post age i.sex i.educd i.raced young_treated young_post young_post_treated, absorb(year) robust
+areg employed treated_post age i.sex i.educd i.raced lnwage young_treated young_post young_post_treated, absorb(year) robust
 outreg2 using employment_results_np.doc, append ctitle(Absorb Year) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
-areg employed treated_post age i.sex i.educd i.raced young_treated young_post young_post_treated [pweight=perwt], absorb(year) robust
+areg employed treated_post age i.sex i.educd i.raced lnwage young_treated young_post young_post_treated [pweight=perwt], absorb(year) robust
 outreg2 using employment_results.doc, append ctitle(Absorb Year) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 test treated_post young_treated young_post young_post_treated
 
