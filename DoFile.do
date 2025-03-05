@@ -125,7 +125,7 @@ collapse (mean) employment_rate=employed [pweight=perwt], by(statefip year)
 keep if statefip == 8 | statefip == 49
 gen state_name = "colorado" if statefip == 8
 replace state_name = "utah" if statefip == 49
-twoway (connected employment_rate year if statefip == 8) (connected employment_rate year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2003(1)2010) ylabel(0.65(0.05)0.8) ytitle("Employment Rate") xtitle("Year") title("Employment Trends in Colorado (Treatment) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treatment)" 2 "Utah (Control)"))
+twoway (connected employment_rate year if statefip == 8) (connected employment_rate year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2003(1)2010) ylabel(0.65(0.05)0.8) ytitle("Employment Rate") xtitle("Year") title("Employment Trends in Colorado (Treat) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treat)" 2 "Utah (Control)"))
 graph export "employment_trends.png", replace
 restore
 
@@ -135,7 +135,7 @@ collapse (mean) mean_lnhrlywge=lnhrlywge [pweight=perwt], by(statefip year)
 keep if statefip == 8 | statefip == 49
 gen state_name = "Colorado" if statefip == 8
 replace state_name = "Utah" if statefip == 49
-twoway (connected mean_lnhrlywge year if statefip == 8) (connected mean_lnhrlywge year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2003(1)2010) ytitle("Average Log Hourly Wage") xtitle("Year") title("Log Hourly Wage Trends in Colorado (Treatment) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treatment)" 2 "Utah (Control)"))
+twoway (connected mean_lnhrlywge year if statefip == 8) (connected mean_lnhrlywge year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2003(1)2010) ytitle("Avg Log Hrly Wage") xtitle("Year") title("Log Hrly Wage Trends in Colorado (Treat) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treat)" 2 "Utah (Control)"))
 graph export "log_wage_trends.png", replace
 restore
 
