@@ -152,6 +152,18 @@ outreg2 using employment_results_np.doc, append ctitle(With FE) keep(treated_pos
 reg employed treated_post age i.sex i.educd i.raced i.statefip i.year [pweight=perwt], robust
 outreg2 using employment_results.doc, append ctitle(With FE) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
+// Income Basic DiD regression
+reg lnwage treated post treated_post, robust
+outreg2 using lnwage_results_np.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Income (No Perwt))
+reg employed treated post treated_post [pweight=perwt], robust
+outreg2 using lnwage_results.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Income)
+
+// Income DiD with state and year fixed effects
+reg lnwage treated_post age i.sex i.educd i.raced i.statefip i.year, robust
+outreg2 using lnwage_results_np.doc, append ctitle(With FE) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
+reg employed treated_post age i.sex i.educd i.raced i.statefip i.year [pweight=perwt], robust
+outreg2 using lnwage_results.doc, append ctitle(With FE) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
+
 gen young = (age <= 25)
 gen young_treated = young * treated
 gen young_post = young * post
