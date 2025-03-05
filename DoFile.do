@@ -56,11 +56,9 @@ drop citizen
 drop race
 drop educ
 drop empstatd
-drop hrswork1
 drop if empstat == 0
 
 tab statefip, gen(state_dummy)
-
 
 gen treated = (statefip == 8)
 gen female = (sex==2)
@@ -70,6 +68,7 @@ tab empstat, gen(emp_dummy)
 gen lnwage = ln(incwage)
 gen post = (year >= 2007)
 gen treated_post = treated * post
+gen lnhrlywge = ln(incwage / uhrswork * 52)
 
 // note, looked up syntax for exporting to excel
 putexcel set summary.xlsx, replace
@@ -130,13 +129,13 @@ twoway (connected employment_rate year if statefip == 8) (connected employment_r
 graph export "employment_trends.png", replace
 restore
 
-// for lnwage
+// for lnhrlywge
 preserve
-collapse (mean) mean_lnwage=lnwage [pweight=perwt], by(statefip year)
+collapse (mean) mean_lnhrlywge=lnhrlywge [pweight=perwt], by(statefip year)
 keep if statefip == 8 | statefip == 49
 gen state_name = "Colorado" if statefip == 8
 replace state_name = "Utah" if statefip == 49
-twoway (connected mean_lnwage year if statefip == 8) (connected mean_lnwage year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2003(1)2010) ytitle("Average Log Wage") xtitle("Year") title("Log Wage Trends in Colorado (Treatment) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treatment)" 2 "Utah (Control)"))
+twoway (connected mean_lnhrlywge year if statefip == 8) (connected mean_lnhrlywge year if statefip == 49), xline(2007, lpattern(dash) lcolor(red)) xlabel(2003(1)2010) ytitle("Average Log Hourly Wage") xtitle("Year") title("Log Hourly Wage Trends in Colorado (Treatment) vs Utah (Control)") subtitle("Vertical line indicates policy change in 2007") legend(order(1 "Colorado (Treatment)" 2 "Utah (Control)"))
 graph export "log_wage_trends.png", replace
 restore
 
@@ -153,15 +152,15 @@ reg employed treated_post age i.sex i.educd i.raced i.statefip i.year [pweight=p
 outreg2 using employment_results.doc, append ctitle(With FE) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
 // Income Basic DiD regression
-reg lnwage treated post treated_post, robust
-outreg2 using lnwage_results_np.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Income (No Perwt))
-reg employed treated post treated_post [pweight=perwt], robust
-outreg2 using lnwage_results.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Income)
+reg lnhrlywge treated post treated_post, robust
+outreg2 using lnwage_results_np.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Hourly Wage (No Perwt))
+reg lnhrlywge treated post treated_post [pweight=perwt], robust
+outreg2 using lnwage_results.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(State FE, No, Year FE, No) title(Effect of Colorado Policy Change on Hourly Wage)
 
 // Income DiD with state and year fixed effects
-reg lnwage treated_post age i.sex i.educd i.raced i.statefip i.year, robust
+reg lnhrlywge treated_post age i.sex i.educd i.raced i.statefip i.year, robust
 outreg2 using lnwage_results_np.doc, append ctitle(With FE) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
-reg employed treated_post age i.sex i.educd i.raced i.statefip i.year [pweight=perwt], robust
+reg lnhrlywge treated_post age i.sex i.educd i.raced i.statefip i.year [pweight=perwt], robust
 outreg2 using lnwage_results.doc, append ctitle(With FE) keep(treated_post) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
 gen young = (age <= 25)
@@ -183,15 +182,15 @@ outreg2 using employment_results.doc, append ctitle(Absorb Year) keep(treated_po
 test treated_post young_treated young_post young_post_treated
 
 // Income long regression with DDD
-reg lnwage treated_post age i.sex i.educd i.raced i.statefip i.year young young_treated young_post young_post_treated, robust
+reg lnhrlywge treated_post age i.sex i.educd i.raced i.statefip i.year young young_treated young_post young_post_treated, robust
 outreg2 using lnwage_results_np.doc, append ctitle(With FE) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
-reg lnwage treated_post age i.sex i.educd i.raced i.statefip i.year young young_treated young_post young_post_treated [pweight=perwt], robust
+reg lnhrlywge treated_post age i.sex i.educd i.raced i.statefip i.year young young_treated young_post young_post_treated [pweight=perwt], robust
 outreg2 using lnwage_results.doc, append ctitle(With FE) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
 // Income absorbing year with DDD
-areg lnwage treated_post age i.sex i.educd i.raced young young_treated young_post young_post_treated, absorb(year) robust
+areg lnhrlywge treated_post age i.sex i.educd i.raced young young_treated young_post young_post_treated, absorb(year) robust
 outreg2 using lnwage_results_np.doc, append ctitle(Absorb Year) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
-areg lnwage treated_post age i.sex i.educd i.raced young young_treated young_post young_post_treated [pweight=perwt], absorb(year) robust
+areg lnhrlywge treated_post age i.sex i.educd i.raced young young_treated young_post young_post_treated [pweight=perwt], absorb(year) robust
 outreg2 using lnwage_results.doc, append ctitle(Absorb Year) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
 capture log close
