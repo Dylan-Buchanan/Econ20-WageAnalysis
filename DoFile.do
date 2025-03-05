@@ -82,7 +82,7 @@ putexcel G1 = "Max"
 local row = 2
 foreach state in 8 49 {  
     foreach condition in 2007 2005 {
-        foreach variable of varlist emp_dummy* age perwt sex educ_dummy* incwage race_dummy* {
+        foreach variable of varlist emp_dummy* age perwt sex educ_dummy* lnhrlywge race_dummy* {
             if `condition' == 2007 {
                 quietly summarize `variable' if year >= 2007 & statefip == `state'
                 local mean = r(mean)
