@@ -27,7 +27,7 @@ else {
 
 // Open Data Sets Below And Clean Up 
 
-use usa_00001, clear
+use usa_00002, clear
 
 drop if year == 1850
 drop if year == 1860
