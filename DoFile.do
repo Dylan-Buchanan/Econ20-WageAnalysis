@@ -185,26 +185,26 @@ gen young_post = young * post
 gen young_post_treated = young * post * treated
 
 // Long regression with DDD
-reg employed treated_post age i.sex i.educd i.raced i.statefip i.year young young_treated young_post young_post_treated, robust
+reg employed treated_post i.sex i.educd i.raced i.statefip i.year young young_treated young_post young_post_treated, robust
 outreg2 using employment_results_np.doc, append ctitle(With FE) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 reg employed treated_post age i.sex i.educd i.raced i.statefip i.year lnwage young young_treated young_post young_post_treated [pweight=perwt], robust
 outreg2 using employment_results.doc, append ctitle(With FE) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
 // Absorbing year with DDD
-areg employed treated_post age i.sex i.educd i.raced young young_treated young_post young_post_treated, absorb(year) robust
+areg employed treated_post i.sex i.educd i.raced young young_treated young_post young_post_treated, absorb(year) robust
 outreg2 using employment_results_np.doc, append ctitle(Absorb Year) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 areg employed treated_post age i.sex i.educd i.raced lnwage young young_treated young_post young_post_treated [pweight=perwt], absorb(year) robust
 outreg2 using employment_results.doc, append ctitle(Absorb Year) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 test treated_post young_treated young_post young_post_treated
 
 // Income long regression with DDD
-reg lnhrlywge treated_post age i.sex i.educd i.raced i.statefip i.year young young_treated young_post young_post_treated, robust
+reg lnhrlywge treated_post i.sex i.educd i.raced i.statefip i.year young young_treated young_post young_post_treated, robust
 outreg2 using lnwage_results_np.doc, append ctitle(With FE) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 reg lnhrlywge treated_post age i.sex i.educd i.raced i.statefip i.year young young_treated young_post young_post_treated [pweight=perwt], robust
 outreg2 using lnwage_results.doc, append ctitle(With FE) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 
 // Income absorbing year with DDD
-areg lnhrlywge treated_post age i.sex i.educd i.raced young young_treated young_post young_post_treated, absorb(year) robust
+areg lnhrlywge treated_post i.sex i.educd i.raced young young_treated young_post young_post_treated, absorb(year) robust
 outreg2 using lnwage_results_np.doc, append ctitle(Absorb Year) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
 areg lnhrlywge treated_post age i.sex i.educd i.raced young young_treated young_post young_post_treated [pweight=perwt], absorb(year) robust
 outreg2 using lnwage_results.doc, append ctitle(Absorb Year) keep(treated_post young young_post young_treated young_post_treated) addtext(State FE, Yes, Year FE, Yes, Controls, Yes)
