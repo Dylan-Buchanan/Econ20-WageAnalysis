@@ -58,9 +58,9 @@ drop educ
 drop empstatd
 drop if empstat == 0
 
-// drop if N/A
-drop if wkswork2 == 0
 
+// drop if N/A -> dont think we need to drop because ommitted anyway when empty
+// drop if wkswork2 == 0
 
 tab statefip, gen(state_dummy)
 
@@ -130,6 +130,7 @@ foreach state in 8 49 {
         }
     }
 }
+
 
 
 
