@@ -174,9 +174,9 @@ reg lnhrlywge treated post treated_post [pweight=perwt], robust
 outreg2 using lnwage_results.doc, replace ctitle(Basic DiD) keep(treated post treated_post) addtext(Year FE, No, Controls, No) title(Effect of Colorado Policy Change on Hourly Wage)
 
 // Income DiD with year fixed effects
-reg lnhrlywge age i.sex i.educd i.raced treated post treated_post, robust
+reg lnhrlywge age i.sex i.educd i.raced i.year treated treated_post, robust
 outreg2 using lnwage_results_np.doc, append ctitle(With FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
-reg lnhrlywge age i.sex i.educd i.raced treated post treated_post [pweight=perwt], robust
+reg lnhrlywge age i.sex i.educd i.raced i.year treated treated_post [pweight=perwt], robust
 outreg2 using lnwage_results.doc, append ctitle(With FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
 
 gen young = (age <= 25)
