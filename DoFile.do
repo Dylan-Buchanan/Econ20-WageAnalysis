@@ -27,7 +27,7 @@ else {
 
 // Open Data Sets Below And Clean Up 
 
-use usa_00002, clear
+use usa_00003, clear
 
 drop if year == 1850
 drop if year == 1860
@@ -58,6 +58,10 @@ drop educ
 drop empstatd
 drop if empstat == 0
 
+// drop if N/A
+drop if wkswork2 == 0
+
+
 tab statefip, gen(state_dummy)
 
 gen treated = (statefip == 8)
@@ -68,7 +72,18 @@ tab empstat, gen(emp_dummy)
 gen lnwage = ln(incwage)
 gen post = (year >= 2007)
 gen treated_post = treated * post
-gen lnhrlywge = ln(incwage / uhrswork * 52)
+
+// midpoint of usual wkswork
+gen total_weeks = 7 if wkswork2 == 1
+replace total_weeks = 20 if wkswork2 == 2
+replace total_weeks = 33 if wkswork2 == 3
+replace total_weeks = 43.5 if wkswork2 == 4
+replace total_weeks = 48.5 if wkswork2 == 5
+replace total_weeks = 51 if wkswork2 == 6
+
+
+gen lnhrlywge = ln(incwage / (uhrswork * total_weeks))
+
 
 // note, looked up syntax for exporting to excel
 putexcel set summary.xlsx, replace
@@ -101,7 +116,7 @@ foreach state in 8 49 {
                 local n = r(N)
                 local cond_text "year < 2007"
             }
-            
+         
             if `n' > 0 {
                 putexcel A`row' = `state'
                 putexcel B`row' = "`cond_text'"
