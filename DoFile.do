@@ -169,9 +169,9 @@ outreg2 using employment_results.doc, append ctitle(With FE) keep(treated treate
 
 // DiD with year fixed effects
 reg employed age i.sex i.educd i.raced i.year treated treated_post, robust
-outreg2 using employment_results_np.doc, append ctitle(With FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
+outreg2 using employment_results_np.doc, append ctitle(Year FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
 reg employed age i.sex i.educd i.raced i.year treated treated_post [pweight=perwt], robust
-outreg2 using employment_results.doc, append ctitle(With FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
+outreg2 using employment_results.doc, append ctitle(Year FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
 
 // Income Basic DiD regression
 reg lnhrlywge treated post treated_post, robust
@@ -187,9 +187,9 @@ outreg2 using lnwage_results.doc, append ctitle(With FE) keep(treated treated_po
 
 // Income DiD with year fixed effects
 reg lnhrlywge age i.sex i.educd i.raced treated post treated_post, robust
-outreg2 using lnwage_results_np.doc, append ctitle(With FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
+outreg2 using lnwage_results_np.doc, append ctitle(Year FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
 reg lnhrlywge age i.sex i.educd i.raced i.statefip i.year treated treated_post [pweight=perwt], robust
-outreg2 using lnwage_results.doc, append ctitle(With FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
+outreg2 using lnwage_results.doc, append ctitle(Year FE) keep(treated treated_post) addtext(Year FE, Yes, Controls, Yes)
 
 gen young = (age <= 25)
 gen young_treated = young * treated
@@ -198,14 +198,14 @@ gen young_post_treated = young * post * treated
 
 // Long regression with DDD
 reg employed age i.sex i.educd i.raced i.year treated treated_post young_treated young_post young_post_treated, robust
-outreg2 using employment_results_np.doc, append ctitle(With FE) keep(treated treated_post young young_post young_treated young_post_treated) addtext(Year FE, Yes, Controls, Yes)
+outreg2 using employment_results_np.doc, append ctitle(DiDiD) keep(treated treated_post young young_post young_treated young_post_treated) addtext(Year FE, Yes, Controls, Yes)
 reg employed age i.sex i.educd i.raced i.year treated treated_post young_treated young_post young_post_treated [pweight=perwt], robust
-outreg2 using employment_results.doc, append ctitle(With FE) keep(treated treated_post young young_post young_treated young_post_treated) addtext(Year FE, Yes, Controls, Yes)
+outreg2 using employment_results.doc, append ctitle(DiDiD) keep(treated treated_post young young_post young_treated young_post_treated) addtext(Year FE, Yes, Controls, Yes)
 
 // Income long regression with DDD
 reg lnhrlywge age i.sex i.educd i.raced i.year treated treated_post young_treated young_post young_post_treated, robust
-outreg2 using lnwage_results_np.doc, append ctitle(With FE) keep(treated treated_post young young_post young_treated young_post_treated) addtext(Year FE, Yes, Controls, Yes)
+outreg2 using lnwage_results_np.doc, append ctitle(DiDiD) keep(treated treated_post young young_post young_treated young_post_treated) addtext(Year FE, Yes, Controls, Yes)
 reg lnhrlywge age i.sex i.educd i.raced i.statefip i.year treated_post young_treated young_post young_post_treated [pweight=perwt], robust
-outreg2 using lnwage_results.doc, append ctitle(With FE) keep(treated treated_post young young_post young_treated young_post_treated) addtext(Year FE, Yes, Controls, Yes)
+outreg2 using lnwage_results.doc, append ctitle(DiDiD) keep(treated treated_post young young_post young_treated young_post_treated) addtext(Year FE, Yes, Controls, Yes)
 
 capture log close
